@@ -1,0 +1,48 @@
+# define parent
+FROM ubuntu:20.04
+
+# define arguments
+ARG BUILD_DATE
+ARG APPLICATION_VERSION
+ARG DEBIAN_FRONTEND=noninteractive
+
+# define maintainer
+LABEL \
+  org.label-schema.name="docker-xfce" \
+  org.label-schema.version="${APPLICATION_VERSION}" \
+  org.label-schema.build-data="${BUILD_DATE}"
+
+# add application and start script
+ADD rootfs.ubuntu.2004 /
+
+# add environment variables
+ENV \
+  DISPLAY=:0
+
+# install packages
+RUN \
+  apt-get update \
+  && apt-get upgrade -y \
+  && apt-get install -y \
+      firefox \
+      gedit \
+      openjdk-11-jdk \
+      supervisor \
+      tigervnc-standalone-server \
+      vim \
+      wget \
+      wireshark \
+      xfce4 \
+      xfce4-terminal \
+      zip \
+  && rm -f /etc/xdg/autostart/xscreensaver.desktop \
+  && rm -f /etc/xdg/autostart/xfce-polkit*
+
+RUN \
+  mkdir -p /opt/novnc/utils/websockify \
+  && wget -qO- https://github.com/novnc/noVNC/archive/v1.3.0.tar.gz | tar xz --strip 1 -C /opt/novnc/ \
+  && wget -qO- https://github.com/novnc/websockify/archive/v0.10.0.tar.gz | tar xz --strip 1 -C /opt/novnc/utils/websockify \
+  && ln -s /opt/novnc/vnc.html /opt/novnc/index.html
+
+# entrypoint
+ENTRYPOINT [ "/entrypoint.sh" ]
