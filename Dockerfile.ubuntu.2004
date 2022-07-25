@@ -47,5 +47,8 @@ RUN \
 # expose novnc port
 EXPOSE 6080
 
+# set work directory
+WORKDIR /root
+
 # entrypoint
 ENTRYPOINT [ "/entrypoint.sh" ]
