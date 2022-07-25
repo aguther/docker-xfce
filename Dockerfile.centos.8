@@ -78,6 +78,9 @@ RUN \
   && /bin/dbus-uuidgen > /etc/machine-id \
   && echo "source /root/.bash_aliases" >> /root/.bashrc
 
+# expose novnc port
+EXPOSE 6080
+
 # set work directory
 WORKDIR /root
 

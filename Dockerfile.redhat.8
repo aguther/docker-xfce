@@ -90,6 +90,9 @@ RUN \
 RUN \
   subscription-manager unregister
 
+# expose novnc port
+EXPOSE 6080
+
 # set work directory
 WORKDIR /root
 
