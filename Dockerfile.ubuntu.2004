@@ -36,6 +36,7 @@ RUN \
       xfce4-terminal \
       zip \
   && rm -f /etc/xdg/autostart/xscreensaver.desktop \
+  && rm -f /etc/xdg/autostart/light-locker.desktop \
   && rm -f /etc/xdg/autostart/xfce-polkit*
 
 RUN \

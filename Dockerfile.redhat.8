@@ -83,6 +83,7 @@ RUN \
 RUN \
   rm -f /etc/xdg/autostart/xfce-polkit* \
   && rm -f /etc/xdg/autostart/xscreensaver.desktop \
+  && rm -f /etc/xdg/autostart/light-locker.desktop \
   && /bin/dbus-uuidgen > /etc/machine-id \
   && echo "source /root/.bash_aliases" >> /root/.bashrc
 
