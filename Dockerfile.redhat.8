@@ -85,6 +85,7 @@ RUN \
   && rm -f /etc/xdg/autostart/xscreensaver.desktop \
   && rm -f /etc/xdg/autostart/light-locker.desktop \
   && /bin/dbus-uuidgen > /etc/machine-id \
+  && chmod 644 /root/.bash_aliases \
   && echo "source /root/.bash_aliases" >> /root/.bashrc
 
 # unregister system
@@ -94,8 +95,23 @@ RUN \
 # expose novnc port
 EXPOSE 6080
 
+# add user
+RUN \
+  echo "root:root" | chpasswd \
+  && adduser user \
+  && cp /root/.bash_aliases /home/user/.bash_aliases \
+  && chmod 644 /home/user/.bash_aliases \
+  && echo "source /home/user/.bash_aliases" >> /home/user/.bashrc \
+  && usermod -a -G root user \
+  && chmod g+r,g+x /entrypoint.sh \
+  && chmod -R g+w /var/log \
+  && chmod -R g+w /run
+
+# change user
+USER user
+
 # set work directory
-WORKDIR /root
+WORKDIR /home/user
 
 # entrypoint
 ENTRYPOINT [ "/entrypoint.sh" ]

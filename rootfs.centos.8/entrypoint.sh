@@ -6,4 +6,6 @@ rm -rf /tmp/.X11-unix
 rm -rf /tmp/.ICE-unix
 
 # start supervisor
-exec /usr/bin/supervisord -n -c /etc/supervisord.conf
+exec /usr/bin/supervisord \
+    --nodaemon \
+    --configuration /etc/supervisord.conf

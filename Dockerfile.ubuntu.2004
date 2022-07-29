@@ -35,6 +35,8 @@ RUN \
       xfce4 \
       xfce4-terminal \
       zip \
+  && apt-get autoclean -y \
+  && apt-get autoremove -y \
   && rm -f /etc/xdg/autostart/xscreensaver.desktop \
   && rm -f /etc/xdg/autostart/light-locker.desktop \
   && rm -f /etc/xdg/autostart/xfce-polkit*
@@ -48,8 +50,20 @@ RUN \
 # expose novnc port
 EXPOSE 6080
 
+# add user
+RUN \
+  echo "root:root" | chpasswd \
+  && adduser user \
+  && usermod -a -G root user \
+  && chmod g+r,g+x /entrypoint.sh \
+  && chmod -R g+w /var/log \
+  && chmod -R g+w /run
+
+# change user
+USER user
+
 # set work directory
-WORKDIR /root
+WORKDIR /home/user
 
 # entrypoint
 ENTRYPOINT [ "/entrypoint.sh" ]
