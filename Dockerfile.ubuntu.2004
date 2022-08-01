@@ -27,6 +27,7 @@ RUN \
       firefox \
       gedit \
       openjdk-11-jdk \
+      python3-numpy \
       supervisor \
       tigervnc-standalone-server \
       vim \
