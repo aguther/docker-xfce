@@ -26,6 +26,7 @@ RUN \
   && apt-get install -y \
       firefox \
       gedit \
+      nginx \
       openjdk-11-jdk \
       python3-numpy \
       supervisor \
@@ -57,8 +58,12 @@ RUN \
   && adduser user \
   && usermod -a -G root user \
   && chmod g+r,g+x /entrypoint.sh \
+  && chmod -R g+w /run \
   && chmod -R g+w /var/log \
-  && chmod -R g+w /run
+  && chmod -R g+w /var/lib/nginx \
+  && chown -R root:root /var/log/nginx \
+  && chown -R root:root /var/lib/nginx \
+  && ln -fs /etc/nginx/sites-available/novnc /etc/nginx/sites-enabled/default
 
 # change user
 USER user
